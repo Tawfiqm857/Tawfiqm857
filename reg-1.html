@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register to Our Courses</title>
+    <link rel="stylesheet" href="./reg.css">
+    <style>
+        #passwordStrength {
+            margin-top: 10px;
+        }
+
+        .weak {
+            color: red;
+        }
+
+        .medium {
+            color: orange;
+        }
+
+        .strong {
+            color: green;
+        }
+
+        /* Transparent overlay */
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Transparent black */
+            z-index: 9999; /* Ensure it's above everything */
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Congratulations message */
+        #congratsMessage {
+            background-color: rgb(15, 11, 247);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #000;
+
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-block">
+    <div class="left-part">
+        <h1>Register to our courses</h1>
+        <p>Our Tech Hub provides free learning materials for programming languages like HTML, CSS, JavaScript, etc.</p>
+        <div class="btn-group">
+            <a class="btn-item" href="#">Learn HTML</a>
+            <a class="btn-item" href="#">Select Quiz</a>
+        </div>
+    </div>
+    <body>
+        <form name="userForm" id="userForm" onsubmit="return handleFormSubmit(event)">
+            <div class="title">
+                <h2>Register here</h2>
+            </div>
+            <div class="info">
+                <input class="fname" type="text" name="firstName" placeholder="First name" required>
+                <div id="firstNameError" class="error"></div>
+                <input class="fname" type="text" name="lastName" placeholder="Last name" required>
+                <div id="lastNameError" class="error"></div>
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <div id="emailError" class="error"></div>
+                <input type="tel" name="phone" placeholder="Phone number">
+                <input type="password" id="passwordInput" placeholder="Enter your password" oninput="checkPasswordStrength()" required>
+                <div id="passwordStrength"></div>
+                <select name="course" required>
+                    <option value="">Select Course</option>
+                    <option value="HTML">HTML</option>
+                    <option value="CSS">CSS</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="TailwindCss">TailwindCss</option>
+                </select>
+                <div id="courseError" class="error"></div>
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" name="agree" required>
+                <span>I agree to the <a href="#">Privacy Policy.</a></span>
+            </div>
+            <button type="submit" id="submitButton">Submit</button>
+        </form>
+    
+        <!-- Transparent overlay and congratulations message -->
+        <div id="overlay">
+            <div id="congratsMessage">
+                <p>Congratulations! You have successfully Enrolled.</p>
+                <button onclick="goToAnotherPage()">OK</button>
+            </div>
+        </div>
+    
+        <script>
+            // function handleFormSubmit(event) {
+            //     event.preventDefault(); // Prevent default form submission
+    
+                // Clear previous error messages
+                clearErrors();
+    
+                if (validateForm()) {
+                    // Display congratulations message
+                    document.getElementById("overlay").style.display = "flex";
+                }
+            }
+    
+            function clearErrors() {
+                document.getElementById("firstNameError").textContent = "";
+                document.getElementById("lastNameError").textContent = "";
+                document.getElementById("courseError").textContent = "";
+            }
+    
+            function validateForm() {
+                let firstName = document.forms["userForm"]["firstName"].value;
+                let lastName = document.forms["userForm"]["lastName"].value;
+                let course = document.forms["userForm"]["course"].value;
+                let valid = true;
+    
+                if (firstName === "") {
+                    document.getElementById("firstNameError").textContent = "First name must be filled out";
+                    valid = false;
+                }
+    
+                if (lastName === "") {
+                    document.getElementById("lastNameError").textContent = "Last name must be filled out";
+                    valid = false;
+                }
+    
+                if (course === "") {
+                    document.getElementById("courseError").textContent = "Please select a course";
+                    valid = false;
+                }
+    
+                return valid;
+            }
+    
+            function checkPasswordStrength() {
+                const password = document.getElementById("passwordInput").value;
+                const passwordStrength = document.getElementById("passwordStrength");
+                let strength = 0;
+    
+                if (password.match(/[a-z]/)) {
+                    strength++;
+                }
+                if (password.match(/[A-Z]/)) {
+                    strength++;
+                }
+                if (password.match(/[0-9]/)) {
+                    strength++;
+                }
+                if (password.length >= 8) {
+                    strength++;
+                }
+    
+                if (strength === 0) {
+                    passwordStrength.textContent = "";
+                } else if (strength === 1 || strength === 2) {
+                    passwordStrength.textContent = "Weak";
+                    passwordStrength.className = "weak";
+                } else if (strength === 3) {
+                    passwordStrength.textContent = "Medium";
+                    passwordStrength.className = "medium";
+                } else {
+                    passwordStrength.textContent = "Strong";
+                    passwordStrength.className = "strong";
+                }
+            }
+    
+            function goToAnotherPage() {
+                // Hide the overlay and redirect to another page
+                document.getElementById("overlay").style.display = "none";
+                window.location.href = "another_page.html";
+            }
+        </script>
+    </body>
+    </html>
